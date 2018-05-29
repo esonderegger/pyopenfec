@@ -8,14 +8,28 @@ class Candidate(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
 
     def __init__(self, **kwargs):
         self.active_through = None
+        self.address_city = None
+        self.address_state = None
+        self.address_street_1 = None
+        self.address_street_2 = None
+        self.address_zip = None
         self.candidate_id = None
+        self.candidate_inactive = None
         self.candidate_status = None
-        self.candidate_status_full = None
         self.cycles = None
         self.district = None
+        self.district_number = None
+        self.election_districts = None
         self.election_years = None
+        self.federal_funds_flag = None
+        self.first_file_date = None
+        self.flags = None
+        self.has_raised_funds = None
         self.incumbent_challenge = None
         self.incumbent_challenge_full = None
+        self.last_f2_date = None
+        self.last_file_date = None
+        self.load_date = None
         self.name = None
         self.office = None
         self.office_full = None
@@ -63,22 +77,27 @@ class Candidate(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
 class CandidateHistoryPeriod(utils.PyOpenFecApiPaginatedClass):
 
     def __init__(self, **kwargs):
+        self.active_through = None
         self.address_city = None
         self.address_state = None
         self.address_street_1 = None
         self.address_street_2 = None
         self.address_zip = None
+        self.candidate_election_year = None
         self.candidate_id = None
         self.candidate_inactive = None
         self.candidate_status = None
-        self.candidate_status_full = None
         self.cycles = None
         self.district = None
+        self.district_number = None
+        self.election_districts = None
         self.election_years = None
-        self.expire_date = None
-        self.form_type = None
+        self.first_file_date = None
+        self.flags = None
         self.incumbent_challenge = None
         self.incumbent_challenge_full = None
+        self.last_f2_date = None
+        self.last_file_date = None
         self.load_date = None
         self.name = None
         self.office = None
