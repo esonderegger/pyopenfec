@@ -8,7 +8,13 @@ class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
         self.all_other_loans = None
         self.allocated_federal_election_levin_share = None
         self.candidate_contribution = None
+        self.cash_on_hand_beginning_period = None
+        self.committee_designation = None
+        self.committee_designation_full = None
         self.committee_id = None
+        self.committee_name = None
+        self.committee_type = None
+        self.committee_type_full = None
         self.contribution_refunds = None
         self.contributions = None
         self.coordinated_expenditures_by_party_committee = None
@@ -29,6 +35,12 @@ class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
         self.individual_contributions = None
         self.individual_itemized_contributions = None
         self.individual_unitemized_contributions = None
+        self.last_beginning_image_number = None
+        self.last_cash_on_hand_end_period = None
+        self.last_debts_owed_by_committee = None
+        self.last_debts_owed_to_committee = None
+        self.last_report_type_full = None
+        self.last_report_year = None
         self.loan_repayments = None
         self.loan_repayments_candidate_loans = None
         self.loan_repayments_made = None
@@ -42,7 +54,6 @@ class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
         self.net_contributions = None
         self.net_operating_expenditures = None
         self.non_allocated_fed_election_activity = None
-        self.nonfed_transfers = None
         self.offsets_to_fundraising_expenditures = None
         self.offsets_to_legal_accounting = None
         self.offsets_to_operating_expenditures = None
@@ -53,6 +64,8 @@ class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
         self.other_loans_received = None
         self.other_political_committee_contributions = None
         self.other_receipts = None
+        self.party_full = None
+        self.pdf_url = None
         self.political_party_committee_contributions = None
         self.receipts = None
         self.refunded_individual_contributions = None
@@ -60,6 +73,7 @@ class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
         self.refunded_political_party_committee_contributions = None
         self.repayments_loans_made_by_candidate = None
         self.repayments_other_loans = None
+        self.report_form = None
         self.shared_fed_activity = None
         self.shared_fed_activity_nonfed = None
         self.shared_fed_operating_expenditures = None
@@ -67,6 +81,7 @@ class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
         self.total_independent_contributions = None
         self.total_independent_expenditures = None
         self.total_offsets_to_operating_expenditures = None
+        self.total_transfers = None
         self.transfers_from_affiliated_committee = None
         self.transfers_from_affiliated_party = None
         self.transfers_from_nonfed_account = None
