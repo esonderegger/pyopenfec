@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import datetime
 
 from . import utils
 from .committee import Committee
@@ -39,7 +40,18 @@ class Candidate(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
         self._history = None
         self._committees = None
 
+        date_fields = {
+            'first_file_date': '%Y-%m-%d',
+            'last_f2_date': '%Y-%m-%d',
+            'last_file_date': '%Y-%m-%d',
+            'load_date': '%Y-%m-%dT%H:%M:%S',
+            }
+
         for k, v in kwargs.items():
+            if k in date_fields:
+                parsed_date = datetime.strptime(v, date_fields[k])
+                setattr(self, k, parsed_date)
+                continue
             setattr(self, k, v)
 
     def __unicode__(self):
@@ -107,7 +119,18 @@ class CandidateHistoryPeriod(utils.PyOpenFecApiPaginatedClass):
         self.state = None
         self.two_year_period = None
 
+        date_fields = {
+            'first_file_date': '%Y-%m-%d',
+            'last_f2_date': '%Y-%m-%d',
+            'last_file_date': '%Y-%m-%d',
+            'load_date': '%Y-%m-%dT%H:%M:%S',
+            }
+
         for k, v in kwargs.items():
+            if k in date_fields:
+                parsed_date = datetime.strptime(v, date_fields[k])
+                setattr(self, k, parsed_date)
+                continue
             setattr(self, k, v)
 
     def __unicode__(self):
