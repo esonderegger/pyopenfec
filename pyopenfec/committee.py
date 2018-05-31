@@ -29,8 +29,14 @@ class Committee(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
         self._history = None
         self._totals = None
 
+        date_fields = {
+            'first_file_date': '%Y-%m-%d',
+            'last_f1_date': '%Y-%m-%d',
+            'last_file_date': '%Y-%m-%d',
+            }
+
         for k, v in kwargs.items():
-            setattr(self, k, v)
+            utils.set_instance_attr(self, k, v, date_fields)
 
     def __unicode__(self):
         return unicode("{name} {id}".format(name=self.name,

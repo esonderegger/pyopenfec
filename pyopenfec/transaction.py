@@ -57,8 +57,14 @@ class ScheduleATransaction(utils.PyOpenFecApiIndexedClass):
         self.transaction_id = None
         self.update_date = None
 
+        date_fields = {
+            'contribution_receipt_date': '%Y-%m-%dT%H:%M:%S',
+            'load_date': '%Y-%m-%dT%H:%M:%S.%f+00:00',
+            'timestamp': '%Y-%m-%dT%H:%M:%S.%f+00:00',
+            }
+
         for k, v in kwargs.items():
-            setattr(self, k, v)
+            utils.set_instance_attr(self, k, v, date_fields)
 
     @classmethod
     def fetch(cls, **kwargs):
@@ -133,8 +139,13 @@ class ScheduleBTransaction(utils.PyOpenFecApiIndexedClass):
         self.transaction_id = None
         self.update_date = None
 
+        date_fields = {
+            'disbursement_date': '%Y-%m-%dT%H:%M:%S',
+            'load_date': '%Y-%m-%dT%H:%M:%S.%f+00:00',
+            }
+
         for k, v in kwargs.items():
-            setattr(self, k, v)
+            utils.set_instance_attr(self, k, v, date_fields)
 
     @classmethod
     def fetch(cls, **kwargs):

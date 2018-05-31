@@ -44,8 +44,15 @@ class Filing(utils.PyOpenFecApiPaginatedClass):
         self.treasurer_name = None
         self.update_date = None
 
+        date_fields = {
+            'coverage_end_date': '%Y-%m-%dT%H:%M:%S',
+            'coverage_start_date': '%Y-%m-%dT%H:%M:%S',
+            'receipt_date': '%Y-%m-%dT%H:%M:%S',
+            'update_date': '%Y-%m-%dT%H:%M:%S',
+            }
+
         for k, v in kwargs.items():
-            setattr(self, k, v)
+            utils.set_instance_attr(self, k, v, date_fields)
 
     def __unicode__(self):
         return unicode("{cid}'s #{fn} Form {ft} ({rtf})".format(fn=self.file_number,

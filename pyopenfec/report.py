@@ -182,8 +182,14 @@ class Report(utils.PyOpenFecApiPaginatedClass):
         self.transfers_to_other_authorized_committee_period = None
         self.transfers_to_other_authorized_committee_ytd = None
 
+        date_fields = {
+            'coverage_end_date': '%Y-%m-%dT%H:%M:%S+00:00',
+            'coverage_start_date': '%Y-%m-%dT%H:%M:%S+00:00',
+            'receipt_date': '%Y-%m-%dT%H:%M:%S',
+            }
+
         for k, v in kwargs.items():
-            setattr(self, k, v)
+            utils.set_instance_attr(self, k, v, date_fields)
 
     def __unicode__(self):
         return unicode("{cid} {rtf} ({c} cycle, {csd}-{ced})".format(

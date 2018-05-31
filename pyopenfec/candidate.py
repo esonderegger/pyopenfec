@@ -25,8 +25,15 @@ class Candidate(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
         self._history = None
         self._committees = None
 
+        date_fields = {
+            'first_file_date': '%Y-%m-%d',
+            'last_f2_date': '%Y-%m-%d',
+            'last_file_date': '%Y-%m-%d',
+            'load_date': '%Y-%m-%dT%H:%M:%S',
+            }
+
         for k, v in kwargs.items():
-            setattr(self, k, v)
+            utils.set_instance_attr(self, k, v, date_fields)
 
     def __unicode__(self):
         return unicode("{name} {id}".format(name=self.name,
@@ -88,8 +95,15 @@ class CandidateHistoryPeriod(utils.PyOpenFecApiPaginatedClass):
         self.state = None
         self.two_year_period = None
 
+        date_fields = {
+            'first_file_date': '%Y-%m-%d',
+            'last_f2_date': '%Y-%m-%d',
+            'last_file_date': '%Y-%m-%d',
+            'load_date': '%Y-%m-%dT%H:%M:%S',
+            }
+
         for k, v in kwargs.items():
-            setattr(self, k, v)
+            utils.set_instance_attr(self, k, v, date_fields)
 
     def __unicode__(self):
         return unicode("{name} [{cand_id}] ({period})".format(
