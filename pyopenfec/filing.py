@@ -1,5 +1,6 @@
 from . import utils
 from .transaction import ScheduleATransaction, ScheduleBTransaction
+from datetime import datetime
 
 
 class Filing(utils.PyOpenFecApiPaginatedClass):
@@ -44,7 +45,18 @@ class Filing(utils.PyOpenFecApiPaginatedClass):
         self.treasurer_name = None
         self.update_date = None
 
+        date_fields = [
+            'coverage_end_date',
+            'coverage_start_date',
+            'receipt_date',
+            'update_date'
+            ]
+
         for k, v in kwargs.items():
+            if k in date_fields:
+                parsed_date = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S")
+                setattr(self, k, parsed_date)
+                continue
             setattr(self, k, v)
 
     def __unicode__(self):

@@ -5,6 +5,7 @@ from .aggregates import (CommitteeTotals, AggregateScheduleAByZip,
                          AggregateScheduleAByState, AggregateScheduleABySize,
                          AggregateScheduleAByContributor)
 from .transaction import ScheduleATransaction, ScheduleBTransaction
+from datetime import datetime
 
 
 class Committee(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
@@ -30,6 +31,10 @@ class Committee(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
         self._totals = None
 
         for k, v in kwargs.items():
+            if k in ['first_file_date', 'last_f1_date', 'last_file_date']:
+                parsed_date = datetime.strptime(v, '%Y-%m-%d')
+                setattr(self, k, parsed_date)
+                continue
             setattr(self, k, v)
 
     def __unicode__(self):
