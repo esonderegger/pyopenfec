@@ -1,4 +1,5 @@
 from . import utils
+from datetime import datetime
 
 
 class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
@@ -91,6 +92,10 @@ class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
         self.transfers_to_other_authorized_committee = None
 
         for k, v in kwargs.items():
+            if k in ['coverage_end_date', 'coverage_start_date']:
+                parsed_date = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S+00:00')
+                setattr(self, k, parsed_date)
+                continue
             setattr(self, k, v)
 
     def __unicode__(self):

@@ -1,4 +1,5 @@
 from . import utils
+from datetime import datetime
 
 
 class ScheduleATransaction(utils.PyOpenFecApiIndexedClass):
@@ -85,7 +86,17 @@ class ScheduleATransaction(utils.PyOpenFecApiIndexedClass):
         self.two_year_transaction_period = None
         self.unused_contbr_id = None
 
+        date_fields = {
+            'contribution_receipt_date': '%Y-%m-%dT%H:%M:%S',
+            'load_date': '%Y-%m-%dT%H:%M:%S.%f+00:00',
+            'timestamp': '%Y-%m-%dT%H:%M:%S.%f+00:00',
+            }
+
         for k, v in kwargs.items():
+            if k in date_fields:
+                parsed_date = datetime.strptime(v, date_fields[k])
+                setattr(self, k, parsed_date)
+                continue
             setattr(self, k, v)
 
     @classmethod
@@ -197,7 +208,16 @@ class ScheduleBTransaction(utils.PyOpenFecApiIndexedClass):
         self.two_year_transaction_period = None
         self.unused_contbr_id = None
 
+        date_fields = {
+            'disbursement_date': '%Y-%m-%dT%H:%M:%S',
+            'load_date': '%Y-%m-%dT%H:%M:%S.%f+00:00',
+            }
+
         for k, v in kwargs.items():
+            if k in date_fields:
+                parsed_date = datetime.strptime(v, date_fields[k])
+                setattr(self, k, parsed_date)
+                continue
             setattr(self, k, v)
 
     @classmethod

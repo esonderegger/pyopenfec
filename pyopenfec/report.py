@@ -1,4 +1,5 @@
 from . import utils
+from datetime import datetime
 
 
 class Report(utils.PyOpenFecApiPaginatedClass):
@@ -187,7 +188,17 @@ class Report(utils.PyOpenFecApiPaginatedClass):
         self.transfers_to_other_authorized_committee_period = None
         self.transfers_to_other_authorized_committee_ytd = None
 
+        date_fields = {
+            'coverage_end_date': '%Y-%m-%dT%H:%M:%S+00:00',
+            'coverage_start_date': '%Y-%m-%dT%H:%M:%S+00:00',
+            'receipt_date': '%Y-%m-%dT%H:%M:%S',
+            }
+
         for k, v in kwargs.items():
+            if k in date_fields:
+                parsed_date = datetime.strptime(v, date_fields[k])
+                setattr(self, k, parsed_date)
+                continue
             setattr(self, k, v)
 
     def __unicode__(self):
