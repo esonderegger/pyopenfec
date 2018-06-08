@@ -1,6 +1,7 @@
 from . import utils
 from .transaction import ScheduleATransaction, ScheduleBTransaction
 from datetime import datetime
+from pytz import timezone
 
 
 class Filing(utils.PyOpenFecApiPaginatedClass):
@@ -62,6 +63,7 @@ class Filing(utils.PyOpenFecApiPaginatedClass):
         self.treasurer_name = None
         self.update_date = None
 
+        eastern = timezone('US/Eastern')
         date_fields = [
             'coverage_end_date',
             'coverage_start_date',
@@ -72,7 +74,8 @@ class Filing(utils.PyOpenFecApiPaginatedClass):
         for k, v in kwargs.items():
             if k in date_fields:
                 parsed_date = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S")
-                setattr(self, k, parsed_date)
+                tz_aware = eastern.localize(parsed_date)
+                setattr(self, k, tz_aware)
                 continue
             setattr(self, k, v)
 

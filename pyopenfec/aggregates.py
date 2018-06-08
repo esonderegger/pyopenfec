@@ -1,5 +1,6 @@
 from . import utils
 from datetime import datetime
+from pytz import timezone
 
 
 class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
@@ -91,10 +92,13 @@ class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
         self.transfers_to_affiliated_committee = None
         self.transfers_to_other_authorized_committee = None
 
+        eastern = timezone('US/Eastern')
+
         for k, v in kwargs.items():
             if k in ['coverage_end_date', 'coverage_start_date']:
                 parsed_date = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S+00:00')
-                setattr(self, k, parsed_date)
+                tz_aware = eastern.localize(parsed_date)
+                setattr(self, k, tz_aware)
                 continue
             setattr(self, k, v)
 

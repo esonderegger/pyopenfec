@@ -1,5 +1,6 @@
 from collections import defaultdict
 from datetime import datetime
+from pytz import timezone
 
 from . import utils
 from .committee import Committee
@@ -40,6 +41,7 @@ class Candidate(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
         self._history = None
         self._committees = None
 
+        eastern = timezone('US/Eastern')
         date_fields = {
             'first_file_date': '%Y-%m-%d',
             'last_f2_date': '%Y-%m-%d',
@@ -50,7 +52,8 @@ class Candidate(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
         for k, v in kwargs.items():
             if k in date_fields:
                 parsed_date = datetime.strptime(v, date_fields[k])
-                setattr(self, k, parsed_date)
+                tz_aware = eastern.localize(parsed_date)
+                setattr(self, k, tz_aware)
                 continue
             setattr(self, k, v)
 
@@ -119,6 +122,7 @@ class CandidateHistoryPeriod(utils.PyOpenFecApiPaginatedClass):
         self.state = None
         self.two_year_period = None
 
+        eastern = timezone('US/Eastern')
         date_fields = {
             'first_file_date': '%Y-%m-%d',
             'last_f2_date': '%Y-%m-%d',
@@ -129,7 +133,8 @@ class CandidateHistoryPeriod(utils.PyOpenFecApiPaginatedClass):
         for k, v in kwargs.items():
             if k in date_fields:
                 parsed_date = datetime.strptime(v, date_fields[k])
-                setattr(self, k, parsed_date)
+                tz_aware = eastern.localize(parsed_date)
+                setattr(self, k, tz_aware)
                 continue
             setattr(self, k, v)
 
