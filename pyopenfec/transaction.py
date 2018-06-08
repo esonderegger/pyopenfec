@@ -1,5 +1,6 @@
 from . import utils
 from datetime import datetime
+from pytz import timezone
 
 
 class ScheduleATransaction(utils.PyOpenFecApiIndexedClass):
@@ -86,6 +87,7 @@ class ScheduleATransaction(utils.PyOpenFecApiIndexedClass):
         self.two_year_transaction_period = None
         self.unused_contbr_id = None
 
+        eastern = timezone('US/Eastern')
         date_fields = {
             'contribution_receipt_date': '%Y-%m-%dT%H:%M:%S',
             'load_date': '%Y-%m-%dT%H:%M:%S.%f+00:00',
@@ -95,7 +97,8 @@ class ScheduleATransaction(utils.PyOpenFecApiIndexedClass):
         for k, v in kwargs.items():
             if k in date_fields:
                 parsed_date = datetime.strptime(v, date_fields[k])
-                setattr(self, k, parsed_date)
+                tz_aware = eastern.localize(parsed_date)
+                setattr(self, k, tz_aware)
                 continue
             setattr(self, k, v)
 
@@ -208,6 +211,7 @@ class ScheduleBTransaction(utils.PyOpenFecApiIndexedClass):
         self.two_year_transaction_period = None
         self.unused_contbr_id = None
 
+        eastern = timezone('US/Eastern')
         date_fields = {
             'disbursement_date': '%Y-%m-%dT%H:%M:%S',
             'load_date': '%Y-%m-%dT%H:%M:%S.%f+00:00',
@@ -216,7 +220,8 @@ class ScheduleBTransaction(utils.PyOpenFecApiIndexedClass):
         for k, v in kwargs.items():
             if k in date_fields:
                 parsed_date = datetime.strptime(v, date_fields[k])
-                setattr(self, k, parsed_date)
+                tz_aware = eastern.localize(parsed_date)
+                setattr(self, k, tz_aware)
                 continue
             setattr(self, k, v)
 
