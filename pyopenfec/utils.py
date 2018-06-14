@@ -57,7 +57,10 @@ class PyOpenFecApiClass(object):
         response = None
         if not cls.ratelimit_remaining == 0:
             response = requests.get(url, params=params)
-            cls.ratelimit_remaining = int(response.headers['x-ratelimit-remaining'])
+            if 'x-ratelimit-remaining' in response.headers:
+                cls.ratelimit_remaining = int(response.headers['x-ratelimit-remaining'])
+            else:
+                cls.ratelimit_remaining = 1000
 
         if cls.ratelimit_remaining == 0 or response.status_code == 429:
             while cls.ratelimit_remaining == 0 or response.status_code == 429:
