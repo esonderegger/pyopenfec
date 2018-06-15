@@ -5,8 +5,6 @@ from .aggregates import (CommitteeTotals, AggregateScheduleAByZip,
                          AggregateScheduleAByState, AggregateScheduleABySize,
                          AggregateScheduleAByContributor)
 from .transaction import ScheduleATransaction, ScheduleBTransaction
-from datetime import datetime
-from pytz import timezone
 
 
 class Committee(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
@@ -71,15 +69,14 @@ class Committee(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
         self._history = None
         self._totals = None
 
-        eastern = timezone('US/Eastern')
+        date_fields = {
+            'first_file_date': '%Y-%m-%d',
+            'last_f1_date': '%Y-%m-%d',
+            'last_file_date': '%Y-%m-%d',
+            }
 
         for k, v in kwargs.items():
-            if k in ['first_file_date', 'last_f1_date', 'last_file_date']:
-                parsed_date = datetime.strptime(v, '%Y-%m-%d')
-                tz_aware = eastern.localize(parsed_date)
-                setattr(self, k, tz_aware)
-                continue
-            setattr(self, k, v)
+            utils.set_instance_attr(self, k, v, date_fields)
 
     def __unicode__(self):
         return unicode("{name} {id}".format(name=self.name,

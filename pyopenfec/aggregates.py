@@ -1,6 +1,4 @@
 from . import utils
-from datetime import datetime
-from pytz import timezone
 
 
 class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
@@ -92,15 +90,13 @@ class CommitteeTotals(utils.PyOpenFecApiPaginatedClass):
         self.transfers_to_affiliated_committee = None
         self.transfers_to_other_authorized_committee = None
 
-        eastern = timezone('US/Eastern')
+        date_fields = {
+            'coverage_start_date': '%Y-%m-%dT%H:%M:%S+00:00',
+            'coverage_end_date': '%Y-%m-%dT%H:%M:%S+00:00',
+            }
 
         for k, v in kwargs.items():
-            if k in ['coverage_end_date', 'coverage_start_date']:
-                parsed_date = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S+00:00')
-                tz_aware = eastern.localize(parsed_date)
-                setattr(self, k, tz_aware)
-                continue
-            setattr(self, k, v)
+            utils.set_instance_attr(self, k, v, date_fields)
 
     def __unicode__(self):
         return unicode("{cid} totals ({c} cycle, {csd}-{ced})".format(
