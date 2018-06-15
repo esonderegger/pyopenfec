@@ -1,7 +1,5 @@
 from . import utils
 from .transaction import ScheduleATransaction, ScheduleBTransaction
-from datetime import datetime
-from pytz import timezone
 
 
 class Filing(utils.PyOpenFecApiPaginatedClass):
@@ -63,21 +61,15 @@ class Filing(utils.PyOpenFecApiPaginatedClass):
         self.treasurer_name = None
         self.update_date = None
 
-        eastern = timezone('US/Eastern')
-        date_fields = [
-            'coverage_end_date',
-            'coverage_start_date',
-            'receipt_date',
-            'update_date'
-            ]
+        date_fields = {
+            'coverage_end_date': '%Y-%m-%dT%H:%M:%S',
+            'coverage_start_date': '%Y-%m-%dT%H:%M:%S',
+            'receipt_date': '%Y-%m-%dT%H:%M:%S',
+            'update_date': '%Y-%m-%dT%H:%M:%S',
+            }
 
         for k, v in kwargs.items():
-            if k in date_fields:
-                parsed_date = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S")
-                tz_aware = eastern.localize(parsed_date)
-                setattr(self, k, tz_aware)
-                continue
-            setattr(self, k, v)
+            utils.set_instance_attr(self, k, v, date_fields)
 
     def __unicode__(self):
         return unicode("{cid}'s #{fn} Form {ft} ({rtf})".format(fn=self.file_number,
