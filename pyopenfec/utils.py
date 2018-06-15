@@ -2,9 +2,11 @@ import json
 import os
 import time
 import logging
+from datetime import datetime
 
 import requests
 import six
+from pytz import timezone
 
 if six.PY2:
     from exceptions import Exception, NotImplementedError, TypeError
@@ -14,6 +16,7 @@ API_KEY = os.environ.get('OPENFEC_API_KEY', None)
 BASE_URL = 'https://api.open.fec.gov'
 VERSION = '/v1'
 
+eastern = timezone('US/Eastern')
 
 class PyOpenFecException(Exception):
     """
@@ -185,3 +188,12 @@ def default_empty_list(func):
         except TypeError:
             return []
     return inner
+
+
+def set_instance_attr(instance, k, v, date_fields):
+    if k in date_fields and v is not None:
+        parsed_date = datetime.strptime(v, date_fields[k])
+        tz_aware = eastern.localize(parsed_date)
+        setattr(instance, k, tz_aware)
+        return
+    setattr(instance, k, v)
