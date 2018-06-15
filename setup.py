@@ -2,10 +2,10 @@
 from setuptools import setup, find_packages
 
 setup(name="pyopenfec",
-      version="0.2.0",
+      version="0.2.1",
       description="OpenFEC API client",
       license="MIT",
-      install_requires=["requests", "six"],
+      install_requires=["pytz", "requests", "six"],
       author="Jeremy Bowers",
       author_email="jeremyjbowers@gmail.com",
       url="http://github.com/jeremyjbowers/pyopenfec",
