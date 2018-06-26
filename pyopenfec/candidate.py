@@ -2,6 +2,7 @@ from collections import defaultdict
 
 from . import utils
 from .committee import Committee
+from .aggregates import AggregateScheduleEByCandidate
 
 
 class Candidate(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
@@ -79,6 +80,12 @@ class Candidate(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
                     committees_by_cycle[cycle].append(committee)
             self._committees = dict(committees_by_cycle)
         return self._committees
+
+    @utils.default_empty_list
+    def aggregated_independent_expenditures(self, **kwargs):
+        independent_expenditures = AggregateScheduleEByCandidate.fetch(
+            candidate_id=self.candidate_id, **kwargs)
+        return [f for f in independent_expenditures]
 
 
 class CandidateHistoryPeriod(utils.PyOpenFecApiPaginatedClass):
