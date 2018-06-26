@@ -87,6 +87,16 @@ class Candidate(utils.PyOpenFecApiPaginatedClass, utils.SearchMixin):
             candidate_id=self.candidate_id, **kwargs)
         return [f for f in independent_expenditures]
 
+    def principal_committee(self, cycle):
+        committees = Committee.fetch(
+            candidate_id=self.candidate_id,
+            cycle=cycle,
+            designation='P',
+            )
+        for committee in committees:
+            return committee
+        return None
+
 
 class CandidateHistoryPeriod(utils.PyOpenFecApiPaginatedClass):
 
