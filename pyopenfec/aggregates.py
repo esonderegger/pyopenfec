@@ -199,3 +199,27 @@ class AggregateScheduleAByZip(utils.PyOpenFecApiPaginatedClass):
 
         for record in super(AggregateScheduleAByZip, cls).fetch(**kwargs):
             yield record
+
+
+class AggregateScheduleEByCandidate(utils.PyOpenFecApiPaginatedClass):
+
+    def __init__(self, **kwargs):
+        self.candidate_id = None
+        self.candidate_name = None
+        self.committee_id = None
+        self.committee_name = None
+        self.count = None
+        self.cycle = None
+        self.support_oppose_indicator = None
+        self.total = None
+
+        for k, v in kwargs.items():
+            setattr(self, k, v)
+
+    @classmethod
+    def fetch(cls, **kwargs):
+        if 'resource' not in kwargs:
+            kwargs['resource'] = 'schedules/schedule_e/by_candidate'
+
+        for record in super(AggregateScheduleEByCandidate, cls).fetch(**kwargs):
+            yield record
