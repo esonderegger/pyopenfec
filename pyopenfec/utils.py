@@ -83,6 +83,20 @@ class PyOpenFecApiClass(object):
         raise NotImplementedError('fetch command implemented in subclasses only')
 
     @classmethod
+    def fetch_one(cls, **kwargs):
+        if 'resource' in kwargs:
+            resource = kwargs.pop('resource')
+        else:
+            resource = '%ss' % cls.__name__.lower()
+        initial_results = cls._make_request(resource, **kwargs)
+
+        if initial_results.get('results', None):
+            if len(initial_results['results']) > 0:
+                first_result = initial_results['results'][0]
+                return cls(**first_result)
+        return None
+
+    @classmethod
     def _make_request(cls, resource, **kwargs):
         url = BASE_URL + VERSION + '/%s' % resource
 
