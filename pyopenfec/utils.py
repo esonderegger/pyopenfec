@@ -78,7 +78,7 @@ class PyOpenFecApiClass(object):
 
     @classmethod
     def _make_request(cls, resource, **kwargs):
-        url = BASE_URL + VERSION + '/%s' % resource
+        url = BASE_URL + VERSION + '/%s/' % resource
 
         if not API_KEY:
             raise PyOpenFecException('Please export an env var OPENFEC_API_KEY with your API key.')
