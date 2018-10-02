@@ -72,6 +72,8 @@ class PyOpenFecApiClass(object):
                 response = requests.get(url, params=params)
                 if 'x-ratelimit-remaining' in response.headers:
                     cls.ratelimit_remaining = int(response.headers['x-ratelimit-remaining'])
+                elif response.status_code == 200:
+                    cls.ratelimit_remaining = 120
                 else:
                     cls.ratelimit_remaining = 0
 
