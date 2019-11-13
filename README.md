@@ -1,6 +1,10 @@
 # PyOpenFec
 A Python wrapper for the OpenFEC API. Documentation for this API can be found [here](https://api.open.fec.gov/developers)
 
+## Don't use this version!
+
+[Robert Townley's version](https://github.com/RobertTownley/pyopenfec) is the most recently updated (as of 12 Nov 2019) version of this library. It is the code you would get if you did `pip install pyopenfec` and it's what I would use if I were still doing campaign finance stuff.
+
 ## Installation
 
  1. Clone this repository
